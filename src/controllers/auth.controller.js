@@ -9,12 +9,12 @@ const newToken = (user) => {
     return jwt.sign({user},"3f68e07d4d6a4d168f94163122de0be6dcb683137aa5cb03519a14b347ca14c8f5f9b77ab542680697ea1b085b96de0ede3ecf3a843b94ccac21f662d7b43f2a")
 }
 
-const Signup = async (req, res) => {
+const Signup = async (req, res,next) => {
     try {
         let errors = validationResult(req);
         console.log(errors)
         if(!errors.isEmpty()) {
-            return res.status(400).send("not strong");
+           return res.send(errors.array())
         }
 
         let user = await Users.findOne({email: req.body.email}).lean().exec();
